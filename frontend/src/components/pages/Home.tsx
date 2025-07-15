@@ -10,14 +10,14 @@ import Spotlight from '../../assets/Spotlight.webp';
 
 export default function Home() {
   return (
-    <div>
+    <div className="HomePage">
       <Header />
       <div className="home-cards-container">
-        <ResponsiveImageCard imageUrl={DeviceInventory} headerText="Device Inventory" />
+        <ResponsiveImageCard imageUrl={DeviceInventory} headerText="Device Logs"/>
         <ResponsiveImageCard imageUrl={SensorData} headerText="Sensor Data" />
         <ResponsiveImageCard imageUrl={GitHubActivity} headerText="GitHub Activity" />
 
-        <ResponsiveImageCard imageUrl={CalendarImage} headerText="Calendar" />
+        <ResponsiveImageCard imageUrl={CalendarImage} headerText="Calendar" link="/calendar" />
         <ResponsiveImageCard imageUrl={KPIs} headerText="KPIs" />
         <ResponsiveImageCard imageUrl={Spotlight} headerText="Spotlight" />
       </div>

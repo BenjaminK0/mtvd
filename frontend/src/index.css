@@ -21,6 +21,12 @@
 body{
   height: 100%;
   margin: 0;
+  padding: 0;
+}
+
+.HomePage
+{
+  min-height:100vh;
   background-image: linear-gradient(135deg, #cd1c18 0%, #66023c 100%);
   background-repeat: no-repeat;
   background-size: cover;
@@ -32,27 +38,34 @@ body{
   font-family: "Bungee", sans-serif;
   letter-spacing: 15px;
   color: #EDF2F4;
+  margin-top: 0;
+  padding-top: 16px;
+  text-align: center;
 }
 
 /* Home Page Cards */
 
-.home-cards-container
-{
+ .home-cards-container {
   display: grid;
-   grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
-  grid-template-rows: repeat(2, 1fr);    /* 2 equal rows */
-  padding: 16px;
+  grid-template-columns: repeat(3, 300px); 
+  grid-template-rows: repeat(2, 300px);     
+  justify-content: center;                  
+  gap: 20px;                                
+  padding: 16px;                            
 }
+
 .home-card-container {
   background-color: rgba(255, 255, 255, 0.934);
-  width: 400px;
-  height: 400px;
   overflow: hidden;
-  margin: 16px;
   border-radius: 25px;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.home-cards-container a {
+  text-decoration: none;
 }
 
 .home-card-container:hover {
@@ -63,8 +76,8 @@ body{
 .card-image
 {
   padding-top: 10px;
- width: 300px;
- height: 300px;
+  width: 180px;
+  height: 180px;
 }
 
 .headerText
@@ -72,6 +85,7 @@ body{
   color: rgb(34, 33, 33);
   font-family: "Roboto", sans-serif;
   font-size: 38px;
+  
 }
 
 /*  */
