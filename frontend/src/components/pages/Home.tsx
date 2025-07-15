@@ -13,7 +13,7 @@ export default function Home() {
     <div className="HomePage">
       <Header />
       <div className="home-cards-container">
-        <ResponsiveImageCard imageUrl={DeviceInventory} headerText="Device Logs"/>
+        <ResponsiveImageCard imageUrl={DeviceInventory} headerText="Device Logs" link="/device-log"/>
         <ResponsiveImageCard imageUrl={SensorData} headerText="Sensor Data" />
         <ResponsiveImageCard imageUrl={GitHubActivity} headerText="GitHub Activity" />
 

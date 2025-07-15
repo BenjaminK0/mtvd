@@ -6,6 +6,7 @@ import react from "react"
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './components/pages/Home';
 import CalendarPage from './components/pages/CalendarPage';
+import DeviceLogsPage from './components/pages/DeviceLogsPage';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/calendar" element={<CalendarPage />} />
+        <Route path="/device-log" element={<DeviceLogsPage />}/>
       </Routes>
     </BrowserRouter>
   );

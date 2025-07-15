@@ -96,54 +96,70 @@ body{
 
 /* Device Logs Page */
 
+.device-page {
+  background-color: #73000A; /* Garnet red */
+  min-height: 100vh;
+  padding-bottom: 2rem;
+  color: white;
+}
 
-.header-container {
+/* Header styling (within page only) */
+.device-page .header-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  border-bottom: 1px solid #ddd;
-  background-color: #700909;
-}
-
-.header-title {
-  margin: 0;
+  background-color: #5B0008; /* Darker garnet */
+  color: white;
   font-family: "Bungee", sans-serif;
-  color: whitesmoke;
   letter-spacing: 2px;
-  
-  
+
 }
 
-.search-container {
+.device-page .header-title {
+  margin: 0;
+}
+
+/* Search field container */
+.device-page .search-container {
   max-width: 600px;
   margin: 1rem auto;
-  padding: 0 1rem;
+  padding: 0px 0rem;
+  background-color: #ddd;
+  border-radius: 5px;
+
 }
 
-.device-layout {
+/* Main drag/drop layout */
+.device-page .device-layout {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   gap: 40px;
   padding: 2rem;
   flex-wrap: wrap;
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
 }
 
-.device-column {
+/* Left / right stacks */
+.device-page .device-column {
   flex: 1;
   max-width: 500px;
+  min-width: 250px;
 }
 
-.vertical-divider {
+.device-page .vertical-divider {
   width: 2px;
-  background-color: #ccc;
-  height: 100%;
-  min-height: 100px;
+  background-color: #ddd;
+  height: auto;
+  min-height: 100%;
 }
 
-.device-column h3 {
-  text-align: center;
+/* Cards */
+.device-page .device-card {
+  background-color: white;
   margin-bottom: 1rem;
+  color: black; /* readable text inside cards */
 }
 
