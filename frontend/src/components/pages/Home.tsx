@@ -19,7 +19,7 @@ export default function Home() {
 
         <ResponsiveImageCard imageUrl={CalendarImage} headerText="Calendar" link="/calendar" />
         <ResponsiveImageCard imageUrl={KPIs} headerText="KPIs" />
-        <ResponsiveImageCard imageUrl={Spotlight} headerText="Spotlight" />
+        <ResponsiveImageCard imageUrl={Spotlight} headerText="Spotlight" link="/research-spotlight"/>
       </div>
     </div>
   );
