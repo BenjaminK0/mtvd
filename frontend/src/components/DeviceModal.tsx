@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useEffect, useCallback } from "react";
+import axios from "axios"; // Install this with `npm install axios`
+
 import {
   Button, Dialog, DialogActions, DialogContent,
   DialogTitle, ToggleButton, ToggleButtonGroup,
@@ -18,6 +21,7 @@ import {
 import type { DropResult } from '@hello-pangea/dnd';
 
 interface Device {
+  _id?: string;
   name: string;
   location: string;
   status: string;
@@ -29,6 +33,13 @@ export default function DeviceModal() {
   const [location, setLocation] = useState('');
   const [alignment, setAlignment] = useState<string | null>('web');
   const [devices, setDevices] = useState<Device[]>([]);
+
+useEffect(() => {
+  axios.get('http://localhost:4000/devices')
+    .then(res => setDevices(res.data))
+    .catch(err => console.error(err));
+}, []);
+
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -54,29 +65,41 @@ export default function DeviceModal() {
     }
   };
 
-  const handleSaveDevice = () => {
-    if (!deviceName || !location) return;
+  const handleSaveDevice = async () => {
+  if (!deviceName || !location) return;
 
-    const newDevice: Device = {
-      name: deviceName,
-      location,
-      status: alignment === 'web' ? 'In Lab' : 'Out of Lab',
-    };
-
-    if (editIndex !== null) {
-      const updated = [...devices];
-      updated[editIndex] = newDevice;
-      setDevices(updated);
-    } else {
-      setDevices([...devices, newDevice]);
-    }
-
-    setDeviceName('');
-    setLocation('');
-    setAlignment('web');
-    setEditIndex(null);
-    setOpen(false);
+  const newDevice: Device = {
+    name: deviceName,
+    location,
+    status: alignment === 'web' ? 'In Lab' : 'Out of Lab',
   };
+
+  if (editIndex !== null) {
+    const id = devices[editIndex]._id; // assume backend sends `_id`
+    try {
+      const res = await axios.put(`http://localhost:4000/devices/${id}`, newDevice);
+      const updated = [...devices];
+      updated[editIndex] = res.data;
+      setDevices(updated);
+    } catch (err) {
+      console.error(err);
+    }
+  } else {
+    try {
+      const res = await axios.post('http://localhost:4000/devices', newDevice);
+      setDevices([...devices, res.data]);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  setDeviceName('');
+  setLocation('');
+  setAlignment('web');
+  setEditIndex(null);
+  setOpen(false);
+};
+
 
   const handleEdit = (index: number) => {
     const device = devices[index];
@@ -87,9 +110,16 @@ export default function DeviceModal() {
     setOpen(true);
   };
 
-  const handleDelete = (index: number) => {
+  const handleDelete = async (index: number) => {
+  const id = devices[index]._id;
+  try {
+    await axios.delete(`http://localhost:4000/devices/${id}`);
     setDevices(devices.filter((_, i) => i !== index));
-  };
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 
   const filtered = devices.filter(d =>
     d.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
