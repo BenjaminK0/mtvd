@@ -35,7 +35,7 @@ export default function DeviceModal() {
   const [devices, setDevices] = useState<Device[]>([]);
 
 useEffect(() => {
-  axios.get('http://localhost:4000/devices')
+  axios.get('http://localhost:5000/devices')
     .then(res => setDevices(res.data))
     .catch(err => console.error(err));
 }, []);
@@ -77,7 +77,7 @@ useEffect(() => {
   if (editIndex !== null) {
     const id = devices[editIndex]._id; // assume backend sends `_id`
     try {
-      const res = await axios.put(`http://localhost:4000/devices/${id}`, newDevice);
+      const res = await axios.put(`http://localhost:5000/devices/${id}`, newDevice);
       const updated = [...devices];
       updated[editIndex] = res.data;
       setDevices(updated);
@@ -86,7 +86,7 @@ useEffect(() => {
     }
   } else {
     try {
-      const res = await axios.post('http://localhost:4000/devices', newDevice);
+      const res = await axios.post('http://localhost:5000/devices', newDevice);
       setDevices([...devices, res.data]);
     } catch (err) {
       console.error(err);
@@ -113,7 +113,7 @@ useEffect(() => {
   const handleDelete = async (index: number) => {
   const id = devices[index]._id;
   try {
-    await axios.delete(`http://localhost:4000/devices/${id}`);
+    await axios.delete(`http://localhost:5000/devices/${id}`);
     setDevices(devices.filter((_, i) => i !== index));
   } catch (err) {
     console.error(err);
