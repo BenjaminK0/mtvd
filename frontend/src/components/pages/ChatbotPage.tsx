@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import HandGesture from '../../assets/hand-gesture.png';
 export default function ChatbotPage() {
   const [messages, setMessages] = useState<{ role: 'user' | 'bot'; content: string }[]>([]);
   const [input, setInput] = useState('');
@@ -32,38 +32,46 @@ export default function ChatbotPage() {
 
   return (
     <div className="chatbot-page">
-      <div className="chatbot-container">
-        <h1 className="chatbot-title">Lab Assistant</h1>
-
-        <div className="chatbot-mode">
-          <label className="chatbot-label">Mode:</label>
-          <select
-            value={role}
-            onChange={(e) => setRole(e.target.value as 'guest' | 'intern')}
-            className="chatbot-select"
-          >
-            <option value="guest">Guest</option>
-            <option value="intern">Intern</option>
-          </select>
+        <div className="chatbot-left-half">
+                <h1 className='chatbot-intro'>Introducing C4iS AI Assistant...</h1>
+                    <h2 className="chatbot-right-header">COSMO</h2>
+                    <h3 className='chatbot-subheader'>Ask COSMO what projects we are working on!</h3>
+                <img src={ HandGesture } alt="spurs up hand gesture" className='handGesture' />
         </div>
+        <div className="chatbot-container">
+            <div className="chatbot-right-half">
+                <h1 className="chatbot-title">COSMO <span className="versionColor">v1.0</span></h1>
 
-        <div className="chatbot-messages">
-          {messages.map((m, i) => (
-            <div key={i} className={`chatbot-message ${m.role}`}>
-              <span className="chatbot-bubble">{m.content}</span>
+                <div className="chatbot-mode">
+                <label className="chatbot-label">Mode:</label>
+                <select
+                    value={role}
+                    onChange={(e) => setRole(e.target.value as 'guest' | 'intern')}
+                    className="chatbot-select"
+                >
+                    <option value="guest">Guest</option>
+                    <option value="intern">Intern</option>
+                </select>
+                </div>
+
+                <div className="chatbot-messages">
+                {messages.map((m, i) => (
+                    <div key={i} className={`chatbot-message ${m.role}`}>
+                    <span className="chatbot-bubble">{m.content}</span>
+                    </div>
+                ))}
+                </div>
+
+                <div className="chatbot-input-group">
+                <input
+                    className="chatbot-input"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                />
+                <button className="chatbot-send" onClick={sendMessage}>
+                    Send
+                </button>
             </div>
-          ))}
-        </div>
-
-        <div className="chatbot-input-group">
-          <input
-            className="chatbot-input"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-          />
-          <button className="chatbot-send" onClick={sendMessage}>
-            Send
-          </button>
         </div>
       </div>
     </div>

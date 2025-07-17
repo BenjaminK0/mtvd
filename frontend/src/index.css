@@ -242,53 +242,130 @@ body{
 
 
 /* Chatbot Page */
-.chatbot-page {
-  padding: 24px;
-  background-color: #f3f4f6;
-  min-height: 100vh;
+
+
+
+.chatbot-intro
+{
+  font-family: "Roboto", sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  color: #d4e2e2;
+  margin-bottom:0;
+  padding-left: 16px;
 }
 
-.chatbot-container {
-  max-width: 640px;
-  margin: 0 auto;
-  background-color: white;
+.chatbot-right-header
+{
+  font-family: "Bungee", sans-serif;
+  font-size: 128px;
+  color: azure;
+  margin-top:0;
+  margin-bottom:0;
+  padding-left: 80px;
+}
+
+.chatbot-subheader
+{
+  margin-top:0;
+  font-family: "Roboto", sans-serif;
+  color: yellowgreen;
+  padding-left: 120px;
+}
+
+.handGesture
+{
+  width: 600px;
+  height: 600px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.chatbot-page {
+  padding: 24px;
+  background-image: url("./assets/55215.png");
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: .5fr 1fr;
+  grid-gap: 10px;
+}
+ .chatbot-right-half {
+  width: 75;
+  margin-left: 0;
+  background-color: #36454F;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 16px;
 }
 
 .chatbot-title {
-  font-size: 1.25rem;
+  font-size: 2rem;
   font-weight: bold;
   margin-bottom: 16px;
+  font-family: "Roboto", sans-serif;
+  color: azure;
+  letter-spacing: .6px;
+  
+}
+
+.versionColor
+{
+  color: greenyellow;
 }
 
 .chatbot-mode {
   margin-bottom: 12px;
+  font-family: "Roboto", sans-serif;
 }
 
 .chatbot-label {
   margin-right: 8px;
+  color: azure;
 }
 
 .chatbot-select {
   padding: 6px 8px;
-  border: 1px solid #ccc;
+  border: 1px solid azure;
   border-radius: 4px;
+  background-color: #36454F;
+  color: yellow;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
 }
 
 .chatbot-messages {
   height: 384px;
   overflow-y: auto;
-  background-color: #f9fafb;
+  background-color: #C0C0C0;
   padding: 12px;
   border: 1px solid #ddd;
+  border-radius: 10px;
   margin-bottom: 16px;
 }
 
 .chatbot-message {
   margin: 8px 0;
   display: flex;
+  font-family: "Roboto", sans-serif;
+  letter-spacing: .8px;
+  font-weight: 600;
 }
 
 .chatbot-message.user {
@@ -327,8 +404,8 @@ body{
 }
 
 .chatbot-send {
-  background-color: #3b82f6;
-  color: white;
+  background-color: greenyellow;
+  color: #36454F;
   padding: 10px 16px;
   border: none;
   border-top-right-radius: 6px;
@@ -337,5 +414,5 @@ body{
 }
 
 .chatbot-send:hover {
-  background-color: #2563eb;
+  background-color: rgb(152, 226, 41);
 }
