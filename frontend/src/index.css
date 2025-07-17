@@ -168,19 +168,19 @@ body{
 
 .rsp-big-container
 {
-  background-color: #0d0d0d;
+  background-color: #000000;
 }
 .fade-wrapper {
   width: 100vw;
   height: 100vh;
-  background-color: #0d0d0d;
+  background-color: #000000;
   overflow: hidden;
 }
 
 .spotlight-container {
   width: 100%;
   height: 100%;
-  background-color: #0d0d0d;
+  background-color: #000000;
   color: white;
   display: flex;
   flex-direction: column;
@@ -241,3 +241,101 @@ body{
 }
 
 
+/* Chatbot Page */
+.chatbot-page {
+  padding: 24px;
+  background-color: #f3f4f6;
+  min-height: 100vh;
+}
+
+.chatbot-container {
+  max-width: 640px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+}
+
+.chatbot-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.chatbot-mode {
+  margin-bottom: 12px;
+}
+
+.chatbot-label {
+  margin-right: 8px;
+}
+
+.chatbot-select {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.chatbot-messages {
+  height: 384px;
+  overflow-y: auto;
+  background-color: #f9fafb;
+  padding: 12px;
+  border: 1px solid #ddd;
+  margin-bottom: 16px;
+}
+
+.chatbot-message {
+  margin: 8px 0;
+  display: flex;
+}
+
+.chatbot-message.user {
+  justify-content: flex-end;
+}
+
+.chatbot-message.bot {
+  justify-content: flex-start;
+}
+
+.chatbot-bubble {
+  padding: 10px;
+  border-radius: 8px;
+  max-width: 80%;
+  display: inline-block;
+}
+
+.chatbot-message.user .chatbot-bubble {
+  background-color: #bfdbfe;
+}
+
+.chatbot-message.bot .chatbot-bubble {
+  background-color: #bbf7d0;
+}
+
+.chatbot-input-group {
+  display: flex;
+}
+
+.chatbot-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.chatbot-send {
+  background-color: #3b82f6;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  cursor: pointer;
+}
+
+.chatbot-send:hover {
+  background-color: #2563eb;
+}

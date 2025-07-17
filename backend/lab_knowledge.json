@@ -1,0 +1,7 @@
+[
+  { "tag": "project", "text": "Project Atlas explores low-power sensor networks for smart agriculture." },
+  { "tag": "device", "text": "Sensor A is located in Shelf B3 in Lab 1." },
+  { "tag": "device", "text": "Raspberry Pi #4 is currently checked out by Alice (Intern)." },
+  { "tag": "project", "text": "NeuroNet is our deep learning project for neuromorphic edge computing." },
+  { "tag": "location", "text": "The oscilloscope is stored in the third cabinet of the electronics bench." }
+]

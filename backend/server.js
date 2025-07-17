@@ -1,53 +1,97 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const dotenv = require('dotenv');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+const { createClient } = require('@supabase/supabase-js');
 
+dotenv.config();
 const app = express();
-const PORT = 4000;
+const PORT = 5000;
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
+// MongoDB
 mongoose.connect('mongodb://localhost:27017/devices', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
+// Device Schema
 const deviceSchema = new mongoose.Schema({
   name: String,
   location: String,
-  status: String, // "In Lab" or "Out of Lab"
+  status: String,
 });
-
 const Device = mongoose.model('Device', deviceSchema);
 
-// Get all devices
+// Device Routes
 app.get('/devices', async (req, res) => {
   const devices = await Device.find();
   res.json(devices);
 });
-
-// Add a new device
 app.post('/devices', async (req, res) => {
-  const newDevice = new Device(req.body);
-  const saved = await newDevice.save();
+  const saved = await new Device(req.body).save();
   res.json(saved);
 });
-
-// Update a device
 app.put('/devices/:id', async (req, res) => {
-  const { id } = req.params;
-  const updated = await Device.findByIdAndUpdate(id, req.body, { new: true });
+  const updated = await Device.findByIdAndUpdate(req.params.id, req.body, { new: true });
   res.json(updated);
 });
-
-// Delete a device
 app.delete('/devices/:id', async (req, res) => {
-  const { id } = req.params;
-  await Device.findByIdAndDelete(id);
+  await Device.findByIdAndDelete(req.params.id);
   res.sendStatus(204);
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+// Gemini + Supabase Setup
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY);
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+
+async function retrieveContext(query) {
+  const { data, error } = await supabase
+    .from('rag_docs')
+    .select('text')
+    .textSearch('text', query, { type: 'websearch' })
+    .limit(5);
+
+  if (error) {
+    console.error('Supabase search error:', error.message);
+    return '';
+  }
+  return data.map(d => d.text).join('\n');
+}
+
+app.post('/api/chat', async (req, res) => {
+  const { message, role, history } = req.body;
+
+  try {
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+
+    const historyContext = (history || [])
+      .map(msg => `${msg.role === 'user' ? 'User' : 'Bot'}: ${msg.content}`)
+      .join('\n');
+
+    const ragContext = await retrieveContext(message);
+    const prompt = `You are a helpful Center for Industry Solutions assistant.\n
+Role: ${role.toUpperCase()}\n
+Relevant Info:\n${ragContext}\n
+Conversation:\n${historyContext}\n
+User: ${message}`;
+
+    const chat = model.startChat({ history: [], generationConfig: { temperature: 0.7 } });
+    const result = await chat.sendMessage(prompt);
+    const response = result.response;
+
+    res.json({ reply: response.text() });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ reply: 'Something went wrong. Please try again.' });
+  }
 });
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+
