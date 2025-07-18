@@ -1,44 +1,32 @@
 import { useEffect, useState, useMemo } from 'react';
-import Grid from '@mui/material/Grid';
-import {
-  Card,
-  CardContent,
-  Typography,
-  Link,
-  CircularProgress,
-  Container,
-  TextField,
-  CssBaseline,
-  FormControlLabel,
-  Switch,
-  createTheme,
-  ThemeProvider,
-} from '@mui/material';
 import CountUp from 'react-countup';
-import { Line, Pie } from 'react-chartjs-2';
+import { Line, Pie, Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   ArcElement,
   Title,
   Tooltip,
   Legend,
+  Filler,
 } from 'chart.js';
-import { Filler } from 'chart.js';
-ChartJS.register(Filler);
+
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   ArcElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 );
 
 interface Repo {
@@ -98,7 +86,7 @@ export default function GitHubDashboard() {
           label: 'Languages',
           data: Object.values(languageCount),
           backgroundColor: [
-            '#FF6384', '#36A2EB', '#FFCE56', '#8BC34A', '#FF9800', '#9C27B0'
+            '#FF6384', '#36A2EB', '#FFCE56', '#8BC34A', '#FF9800', '#9C27B0',
           ],
         },
       ],
@@ -121,83 +109,86 @@ export default function GitHubDashboard() {
     };
   }, [commitData]);
 
-  const theme = useMemo(() => createTheme({ palette: { mode: darkMode ? 'dark' : 'light' } }), [darkMode]);
+  const repoCreationData = useMemo(() => {
+    const creationCount: { [key: string]: number } = {};
+    repos.forEach(repo => {
+      const year = new Date(repo.created_at).getFullYear().toString();
+      creationCount[year] = (creationCount[year] || 0) + 1;
+    });
+    return {
+      labels: Object.keys(creationCount).sort(),
+      datasets: [
+        {
+          label: 'Repositories Created',
+          data: Object.values(creationCount),
+          backgroundColor: 'rgba(54, 162, 235, 0.6)',
+          borderColor: 'rgb(54, 162, 235)',
+          borderWidth: 1,
+        },
+      ],
+    };
+  }, [repos]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Container sx={{ mt: 4 }}>
-        <Typography variant="h4" gutterBottom>
-          My GitHub Repositories
-        </Typography>
-
-        <FormControlLabel
-          control={<Switch checked={darkMode} onChange={() => setDarkMode(!darkMode)} />}
-          label="Dark Mode"
-        />
-
-        <TextField
-          label="Search Repositories"
-          variant="outlined"
-          fullWidth
-          sx={{ mb: 4 }}
+    <div className="gitHub-page">
+    <div className={`github-dashboard-container ${darkMode ? 'dark-mode' : 'light-mode'}`}>
+      <h1 className="dashboard-title">Center For Industry Solutions: GitHub Statistics</h1>
+      
+      <div className="controls-row">
+        <label className="dark-mode-toggle">
+          Dark Mode
+          <input
+            type="checkbox"
+            checked={darkMode}
+            onChange={() => setDarkMode(!darkMode)}
+          />
+        </label>
+        <input
+          type="text"
+          className="search-bar"
+          placeholder="Search Repositories"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
+      </div>
 
-        {loading ? (
-          <CircularProgress />
-        ) : (
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h6" gutterBottom>
-                📈 Commit Activity (Past 52 Weeks)
-              </Typography>
+      {loading ? (
+        <div className="loading">Loading...</div>
+      ) : (
+        <div className="main-content-row">
+          <div className="left-column">
+            <div className="chart-container">
+              <h2>📈 Commit Activity (Past 52 Weeks)</h2>
               <Line data={commitChartData} />
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <Typography variant="h6" gutterBottom>
-                🥧 Language Usage
-              </Typography>
-              <Pie data={languageData} />
-            </Grid>
-
-            <Grid item xs={12}>
-              <Grid container spacing={3} sx={{ mt: 2 }}>
-                {filteredRepos.map(repo => (
-                  <Grid item xs={12} sm={6} md={4} key={repo.name}>
-                    <Card sx={{ height: '100%' }}>
-                      <CardContent>
-                        <Typography variant="h6" gutterBottom>
-                          <Link href={repo.html_url} target="_blank" rel="noopener">
-                            {repo.name}
-                          </Link>
-                        </Typography>
-                        <Typography variant="body2">
-                          ⭐ Stars: <CountUp end={repo.stargazers_count} duration={1} />
-                        </Typography>
-                        <Typography variant="body2">
-                          🍴 Forks: <CountUp end={repo.forks_count} duration={1} />
-                        </Typography>
-                        <Typography variant="body2">
-                          🐛 Open Issues: <CountUp end={repo.open_issues_count} duration={1} />
-                        </Typography>
-                        <Typography variant="body2">
-                          🗣 Language: {repo.language || 'N/A'}
-                        </Typography>
-                        <Typography variant="body2">
-                          📅 Updated: {new Date(repo.updated_at).toLocaleDateString()}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            </Grid>
-          </Grid>
-        )}
-      </Container>
-    </ThemeProvider>
+            </div>
+            <div className="chart-container">
+              <h2>📅 Repository Creation Timeline</h2>
+              <Bar data={repoCreationData} />
+            </div>
+          </div>
+          <div className="chart-container">
+            <h2>🥧 Language Usage</h2>
+            <Pie data={languageData} />
+          </div>
+          <div className="repos-container">
+            {filteredRepos.map(repo => (
+              <div className="repo-card" key={repo.name}>
+                <h3>
+                  <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
+                    {repo.name}
+                  </a>
+                </h3>
+                <p>⭐ Stars: <CountUp end={repo.stargazers_count} duration={1} /></p>
+                <p>🍴 Forks: <CountUp end={repo.forks_count} duration={1} /></p>
+                <p>🐛 Open Issues: <CountUp end={repo.open_issues_count} duration={1} /></p>
+                <p>🗣 Language: {repo.language || 'N/A'}</p>
+                <p>📅 Updated: {new Date(repo.updated_at).toLocaleDateString()}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+    </div>
   );
 }
