@@ -50,18 +50,32 @@ const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY);
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 async function retrieveContext(query) {
-  const { data, error } = await supabase
-    .from('rag_docs')
-    .select('text')
-    .textSearch('text', query, { type: 'websearch' })
-    .limit(5);
+  const embeddingModel = genAI.getGenerativeModel({ model: 'embedding-001' });
+
+  const embeddingResult = await embeddingModel.embedContent({
+    content: {
+      parts: [{ text: query }],
+    },
+    taskType: 'retrieval_query',
+  });
+
+  const queryEmbedding = embeddingResult.embedding.values;
+
+  const { data, error } = await supabase.rpc('match_rag_docs', {
+    query_embedding: queryEmbedding,
+    match_threshold: 0.75,  // 👈 REQUIRED
+    match_count: 5,
+  });
 
   if (error) {
-    console.error('Supabase search error:', error.message);
+    console.error('Supabase match_rag_docs error:', error.message);
     return '';
   }
-  return data.map(d => d.text).join('\n');
+
+  return data.map((d) => d.text).join('\n');
 }
+
+
 
 app.post('/api/chat', async (req, res) => {
   const { message, role, history } = req.body;
@@ -74,7 +88,7 @@ app.post('/api/chat', async (req, res) => {
       .join('\n');
 
     const ragContext = await retrieveContext(message);
-    const prompt = `You are a helpful Center for Industry Solutions assistant.\n
+    const prompt = `Your name is Cosmo. You are a helpful Center for Industry Solutions assistant.\n
 Role: ${role.toUpperCase()}\n
 Relevant Info:\n${ragContext}\n
 Conversation:\n${historyContext}\n
