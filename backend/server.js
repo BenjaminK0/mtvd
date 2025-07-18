@@ -88,11 +88,25 @@ app.post('/api/chat', async (req, res) => {
       .join('\n');
 
     const ragContext = await retrieveContext(message);
-    const prompt = `Your name is Cosmo. You are a helpful Center for Industry Solutions assistant.\n
-Role: ${role.toUpperCase()}\n
-Relevant Info:\n${ragContext}\n
-Conversation:\n${historyContext}\n
-User: ${message}`;
+   const prompt = `
+You are COSMO, a helpful assistant for the Center for Industry Solutions.
+
+Respond in a friendly, laid-back tone with a touch of humor when appropriate.
+You're knowledgeable but casual—think of yourself as the cool lab assistant everyone likes to chat with.
+Only mention your name or your role if the user asks.
+Keep responses concise, helpful, and engaging.
+
+ROLE: ${role.toUpperCase()}
+
+Relevant Info:
+${ragContext}
+
+Conversation:
+${historyContext}
+
+User: ${message}
+`;
+
 
     const chat = model.startChat({ history: [], generationConfig: { temperature: 0.7 } });
     const result = await chat.sendMessage(prompt);
