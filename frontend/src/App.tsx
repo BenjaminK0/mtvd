@@ -9,6 +9,7 @@ import CalendarPage from './components/pages/CalendarPage';
 import DeviceLogsPage from './components/pages/DeviceLogsPage';
 import ResearchSpotlightPage from './components/pages/ResearchSpotlightPage';
 import ChatbotPage from './components/pages/ChatbotPage';
+import GitHubDashboard from './components/pages/GitHubDashboard';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/device-log" element={<DeviceLogsPage />}/>
         <Route path="/research-spotlight" element={<ResearchSpotlightPage />}/>
         <Route path="/chatbot" element={<ChatbotPage />}/>
+        <Route path="/github-dashboard" element={<GitHubDashboard />}/>
       </Routes>
     </BrowserRouter>
   );

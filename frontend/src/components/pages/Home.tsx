@@ -15,7 +15,7 @@ export default function Home() {
       <div className="home-cards-container">
         <ResponsiveImageCard imageUrl={DeviceInventory} headerText="Device Logs" link="/device-log"/>
         <ResponsiveImageCard imageUrl={SensorData} headerText="Sensor Data" />
-        <ResponsiveImageCard imageUrl={GitHubActivity} headerText="GitHub Activity" />
+        <ResponsiveImageCard imageUrl={GitHubActivity} headerText="GitHub Activity" link="/github-dashboard"/>
 
         <ResponsiveImageCard imageUrl={CalendarImage} headerText="Calendar" link="/calendar" />
         <ResponsiveImageCard imageUrl={Chatbot} headerText="Chatbot" link="/chatbot"/>
