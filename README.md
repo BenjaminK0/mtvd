@@ -38,7 +38,7 @@ The system includes a front-end React dashboard and a back-end API service, with
 
 - 🧑‍💻 **GitHub Activity Feed** – Recent pull requests, commits, and contributor leaderboard
   
-![GitHub Feed](frontend/src/assets/GitHubStats.png)
+![GitHub Feed](frontend/src/assets/ReadME_GitHubStats.png)
 
 ---
 
@@ -51,6 +51,7 @@ The system includes a front-end React dashboard and a back-end API service, with
 | Real-Time | WebSockets / MQTT |
 | Database  | Supabase |
 | Hosting   | Raspberry Pi (TV), local server, or cloud |
+
 
 
 
